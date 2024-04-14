@@ -72,7 +72,7 @@ export default {
 <style scoped lang="less">
 .login-enter{
   .username,.password,.enter-button{
-   margin-top: 20px;
+   margin-top: 40px;
   }
   .enter-button{
     width: 100%;
@@ -89,7 +89,7 @@ export default {
 
   }
   .help{
-    margin-top: 20px;
+    margin-top: 50px;
     display: flex;
     width: 100%;
     .forget,.reset{

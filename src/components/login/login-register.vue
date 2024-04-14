@@ -62,7 +62,7 @@ export default {
 <style scoped lang="less">
 .login-register{
   .username,.password,.again-password,.enter-button{
-    margin-top: 20px;
+    margin-top: 40px;
   }
   .enter-button{
     width: 100%;

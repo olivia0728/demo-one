@@ -6,7 +6,7 @@
     <div class="row1">
       <div class="key-word">
       <span>输入关键字：</span>
-      <el-input v-model="input" placeholder="请输入内容" class="input" size="small"></el-input>
+      <el-input v-model="keyWord" placeholder="请输入内容" class="input" size="small"></el-input>
 
     </div>
     <div class="search">
@@ -28,7 +28,7 @@
   title="提示"
   :visible.sync="dialogVisible"
   width="30%"
-  :before-close="handleClose">
+>
   <div id="dialog">
     <div class="username">
       <span class="title">用户姓名:</span>
@@ -53,51 +53,8 @@
   </div>
    
    </el-dialog>
-   <!-- 删除弹出框 -->
-   <el-dialog
-  title="提示"
-  :visible.sync="deleteDialogVisible"
-  width="30%"
-  :before-close="handleClose">
-  <div id="deleteDialog" style="margin-bottom: 40px;">
-    确认要删除用户
-    <span style="font-weight: bold;">
-      {{ currentUser }}
-    </span>
-    吗？
-  </div>
-  <div class="buttons">
-    <el-button @click="deleteDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="sureDelete()">确 定</el-button>
-  </div>
+
    
-   </el-dialog>
-   <!-- 修改弹出框 -->
-   <el-dialog
-  title="提示"
-  :visible.sync="changeDialogVisible"
-  width="30%"
-  :before-close="handleClose">
-  <div id="dialog">
-    <div class="username">
-      <span class="title">用户姓名:</span>
-      <el-input v-model="username" placeholder="请输入内容" size="small" class="input"></el-input>
-    </div>
-    <div class="phone">
-      <span class="title">用户电话号码:</span>
-      <el-input v-model="phone" placeholder="请输入内容" size="small" class="input"></el-input>
-    </div>
-    <div class="address">
-      <span class="title">用户地址:</span>
-      <el-input v-model="address" placeholder="请输入内容" size="small" class="input"></el-input>
-    </div>
-  </div>
-  <div class="buttons">
-    <el-button @click="changeDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="sureChange()">确 定</el-button>
-  </div>
-   
-   </el-dialog>
    <!-- 用户区域 -->
    <div class="users-area">
     <el-table
@@ -105,7 +62,6 @@
     height="500"
     border
     style="width: 100%"
-    @row-click="handleEdit"
     >
     <el-table-column
       prop="date"
@@ -128,13 +84,56 @@
       prop="address"
       label="地址">
     </el-table-column>
+    <!-- 操作区域 -->
     <el-table-column
      label="操作"
      width="180"
     >
-    <!-- 删除操作 -->
-    <el-button  size="mini"  icon="el-icon-delete" type="danger" @click="handleDelete()">删除</el-button>
-    <el-button  size="mini"  icon="el-icon-edit" type="primary" @click="handleChange()">修改</el-button>
+    <template slot-scope="scope">
+      <el-popover
+  placement="top"
+  width="160"
+  v-model="scope.row.delete_show">
+  <span>确认删除用户{{scope.row.name}}吗？</span>
+  <div style="text-align: right; margin: 0">
+    <el-button size="mini" type="text" @click="scope.row.delete_show = false">取消</el-button>
+    <el-button type="primary" size="mini" @click="sureDelete(scope)">确定</el-button>
+  </div>
+</el-popover>
+<el-button  size="mini"  icon="el-icon-delete" type="danger" @click="scope.row.delete_show = true">删除</el-button>
+
+      <!-- 删除操作 -->
+      
+        
+      <!-- 修改操作 -->
+      <el-button  size="mini"  icon="el-icon-edit" type="primary" @click="scope.row.edit_show = true">修改</el-button>
+      <!-- 修改弹出框 -->
+   <el-dialog
+  title="提示"
+  :visible.sync="scope.row.edit_show"
+  width="30%">
+  <div id="dialog">
+    <div class="username">
+      <span class="title">用户姓名:</span>
+      <el-input v-model="username" placeholder="请输入内容" size="small" class="input"></el-input>
+    </div>
+    <div class="phone">
+      <span class="title">用户电话号码:</span>
+      <el-input v-model="phone" placeholder="请输入内容" size="small" class="input"></el-input>
+    </div>
+    <div class="address">
+      <span class="title">用户地址:</span>
+      <el-input v-model="address" placeholder="请输入内容" size="small" class="input"></el-input>
+    </div>
+  </div>
+  <div class="buttons">
+    <el-button @click="scope.row.edit_show = false">取 消</el-button>
+    <el-button type="primary" @click="sureEdit(scope)">确 定</el-button>
+  </div>
+   
+   </el-dialog>
+    </template>
+    
     </el-table-column>
   </el-table>
   <el-pagination
@@ -151,60 +150,22 @@
 // 导入头部
 import dayjs from 'dayjs';
 import Header from '../my-components/header';
+// 从store中导入用户数据
+import {mapState} from 'pinia'
+import storeId from '@/store/index'  //storeId就是导出的那个值
 export default {
   name: 'SewagecontrolUserManagement',
 
   data() {
     return {
       // 关键字
-      keyWordL:'',
-      // 用户列表
-      tableData: [{
-          date:'2024.3.4',
-          name: '张三',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date:'2024.3.4',
-          name: '李四',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date:'2024.3.4',
-          name: '王五',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date:'2024.3.4',
-          name: '李明明',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date:'2024.3.4',
-          name: '刘七',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date:'2024.3.4',
-          name: '小红',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date:'2024.3.4',
-          name: '王小虎',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
-        dialogVisible:false,
-        // 新增用户数据
-        username:'',
-        phone:'',
-        address:'',
-        time:dayjs(new Date()).format('YYYY-MM-DD'),
-        operationNumber:0,
-        deleteDialogVisible:false,
-        currentUser:'',
-        changeDialogVisible:false
+      keyWord:'',
+      dialogVisible:false,
+      // 新增用户数据
+      username:'',
+      phone:'',
+      address:'',
+      time:dayjs(new Date()).format('YYYY-MM-DD')
       }
     },
 
@@ -227,41 +188,35 @@ export default {
         this.address = ''
     }
     },
-    handleEdit(row){
-      this.currentUser = row.name
-      if(this.operationNumber == 1){
-        this.deleteDialogVisible = true
-        console.log(username)
-      }else if(this.operationNumber == 2){
-        this.changeDialogVisible = true
-
-      }
-    },
-    handleDelete(){
-      this.operationNumber = 1
-    },
-    handleChange(){
-      this.operationNumber = 2
-    },
-    sureDelete(){
+    sureDelete(props){
+      const store = storeId()
+      const row = props.row
+      // 更新用户数据
+      const newData = this.tableData.filter((item)=>item.name!==row.name)
+      // 同步store
+      store.updateTableData(newData)
       this.$message({
           message: '删除成功',
           type: 'success'
         });
-      this.deleteDialogVisible = false
     },
-    sureChange(){
+    sureEdit(props){
       this.$message({
           message: '修改成功',
           type: 'success'
         });
-      this.changeDialogVisible = false
+      props.row.edit_show = false
     }
     
   },
   components:{
     Header
+  },
+  computed:{
+    // 按需导入 -- 用户数据
+    ...mapState(storeId,['tableData'])
   }
+
 };
 </script>
 <style scoped lang="less">

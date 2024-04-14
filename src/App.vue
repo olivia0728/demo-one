@@ -32,7 +32,6 @@ export default {
 #app{
  
   width: 100vw;
-  height: 100vh;
   // background-color: red;
   box-sizing:border-box;
  padding: 0;
