@@ -84,7 +84,10 @@ export default {
   background-size: 100%;
   background-attachment: fixed;
   filter:brightness(1);
-  padding: 100px 290px;
+  padding: 10vh 15vw;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
   .login-page{
   width: 100%;
   height: 100%;

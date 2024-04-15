@@ -3,7 +3,7 @@
     <!-- 首页 -->
     <Header :title="'首页'"></Header>
     <div class="indexLine">
-      <div class="singleBox" v-for="(item, indx) in boxList">
+      <div class="singleBox" v-for="(item, index) in boxList" :key="index">
         <DataBox
           :icon="item.icon"
           :color="item.color"
@@ -28,40 +28,39 @@
       <div class="todo">
         <!-- 标题 -->
         <div class="todoTitle">
-          <i class="el-icon-notebook-2" style="font-size: 18px"></i>
-          待办事项
-          <span class="todoIcon">
-            <i class="el-icon-arrow-right"></i>
-          </span>
+          <i class="el-icon-notebook-2" style="font-size: 18px;"></i>
+        待办事项
+        <span class="todoIcon">
+          <i class="el-icon-arrow-right"></i>
+        </span>
         </div>
         <!-- 主体区域 -->
         <div class="todoBody">
           <!-- 事件显示区域 -->
           <div class="todoShow">
-            <div class="singleTodo" v-for="(item, index) in RealtotoList">
-              <i class="el-icon-info" style="color: #528684"></i>
+            <div class="singleTodo" v-for="(item,index) in RealtodoList" :key="index" @click="gotoWhere(item.url)">
+              <i class="el-icon-info" style="color: #528684;"></i>
               <!-- 表示收藏 -->
-              <i
-                class="el-icon-star-on"
-                style="color: #efd94b; font-size: 18px"
-                v-show="item.star"
-              ></i>
-
-              {{ item.content }}
-              <span class="time">{{ item.time }}</span>
+              <i class="el-icon-star-on" style="color: #efd94b;font-size: 18px;" v-show="item.star"></i>
+              {{item.content}}
+              <span class="time">{{item.time}}</span>
             </div>
           </div>
           <!-- 事件分页区域 -->
-          <div class="todoPages">
+          <div class="pagination-area">
+            <div class="todoPages">
             <el-pagination
-              class="pagination"
-              layout="prev, pager, next"
-              :total="20"
-              @current-change="changePage"
-              :current-page="currentPage"
-            >
-            </el-pagination>
+    class="pagination"
+    layout="prev, pager, next"
+    :total="20"
+    @current-change="changePage"
+    :current-page="currentPage"
+    >
+  </el-pagination>
           </div>
+          </div>
+          
+
         </div>
       </div>
       <div class="openUse">
@@ -98,6 +97,9 @@
 // 导入头部
 import Header from "../my-components/header";
 import DataBox from "../my-components/databox";
+// 从store中导入用户数据
+import {mapState} from 'pinia'
+import storeId from '@/store/index' 
 export default {
   name: "SewagecontrolIndexHome",
 
@@ -138,66 +140,8 @@ export default {
         },
       ],
       currentPage: 1,
-      RealtotoList: [],
-      AlltodoList: [
-        {
-          // 第一页数据
-          page: 1,
-          singleTodo: [
-            { content: "新都区污水问题待解决", star: true, time: "2024-4-6" },
-            {
-              content: "新都区污水问题解决进度待确认",
-              star: false,
-              time: "2024-4-1",
-            },
-            { content: "今日新增1名用户", star: true, time: "2024-3-11" },
-            { content: "今日新增21个污水问题", star: true, time: "2024-3-6" },
-            { content: "我是第一页的待办事项", star: false, time: "2024-3-2" },
-            { content: "待处理污水问题：13个", star: true, time: "2024-3-2" },
-            { content: "今日水质合格率为20%", star: false, time: "2024-3-1" },
-            {
-              content: "本周问题处理表单结果出来了！请查收：",
-              star: false,
-              time: "2024-3-1",
-            },
-            {
-              content: "本周平台用户数据结果出来了！请查收",
-              star: true,
-              time: "2024-2-16",
-            },
-            {
-              content: "用户admin提交了一个污水问题",
-              star: false,
-              time: "2024-2-11",
-            },
-          ],
-        },
-        {
-          // 第二页数据
-          page: 2,
-          singleTodo: [
-            { content: "今日新增21个污水问题", star: true, time: "2024-3-6" },
-            { content: "我是第一页的待办事项", star: false, time: "2024-3-2" },
-            { content: "待处理污水问题：13个", star: true, time: "2024-3-2" },
-            { content: "今日水质合格率为20%", star: false, time: "2024-3-1" },
-            {
-              content: "本周问题处理表单结果出来了！请查收：",
-              star: false,
-              time: "2024-3-1",
-            },
-            {
-              content: "本周平台用户数据结果出来了！请查收",
-              star: true,
-              time: "2024-2-16",
-            },
-            {
-              content: "用户admin提交了一个污水问题",
-              star: false,
-              time: "2024-2-11",
-            },
-          ],
-        },
-      ],
+      RealtodoList: '',
+      
       // 工具数组
       toolList: [
         {
@@ -221,7 +165,7 @@ export default {
 
   mounted() {
     // 初始设置 -- 第一页
-    this.RealtotoList = this.AlltodoList[0].singleTodo;
+    this.RealtodoList = this.todoData[0].singleTodo
   },
 
   methods: {
@@ -238,20 +182,24 @@ export default {
       this.$router.push({ path: `/index/datedetail/` });
       //this.$router.push({ path: `/datedetail/${formattedDate}` });
     },
-    // 换页
-    changePage(pageNumber) {
+   // 换页
+   changePage(pageNumber){
       // console.log(pageNumber)
-      const pageIndex = pageNumber - 1;
-      this.RealtotoList = this.AlltodoList[pageIndex].singleTodo;
+      const pageIndex = pageNumber - 1
+      this.RealtodoList = this.todoData[pageIndex].singleTodo
     },
-    gotoWhere(url) {
-      this.$router.push(url);
-    },
+    gotoWhere(url){
+     
+      this.$router.push(url)
+    }
   },
   components: {
     Header,
     DataBox,
   },
+  computed:{
+    ...mapState(storeId,['todoData'])
+  }
 };
 </script>
 <style scoped lang="less">
@@ -287,6 +235,7 @@ export default {
       }
     }
     .todo {
+      position: relative;
       width: 55%;
       box-sizing: border-box;
       padding: 10px;
@@ -321,13 +270,22 @@ export default {
           }
         }
       }
-      .todoPages {
-        display: flex;
-        flex-direction: column;
-        .pagination {
-          align-self: center;
+      .pagination-area{
+          width: 100%;
+          position: absolute;
+          bottom: -6px;
+          // background-color: pink;
+          .todoPages{
+            width: 100%;
+          display: flex;
+          flex-direction: column;
+          box-sizing: border-box;
+          .pagination{
+            align-self: center;
+          }
+
         }
-      }
+        }
     }
     .openUse {
       margin-right: 5px;

@@ -1,0 +1,86 @@
+const problems_data = [
+  {
+    id:'N0001',
+    person:"鹿九巫",
+    date:'2024.3.4',
+    title: '居民街道水质中度污染问题',
+    type:'生活垃圾污染',
+    level:'重度污染',
+    status:'未展开',
+    number:'1234566666',
+    address: '成都市新都区某街道3号',
+    image:require("../assets/example/pollute.png"),
+    delete_show:false,
+    edit_show:false
+  },  {
+    id:'N0021',
+    person:"鹿九巫",
+    date:'2024.3.4',
+    title: '翻斗花园XX湖水水质重度污染问题',
+    type:'生活垃圾污染',
+    level:'重度污染',
+    status:'已解决',
+    number:'1234566666',
+    address: '上海市普陀区金沙江路 1518 弄',
+    image:require("../assets/example/pollute.png"),
+    delete_show:false,
+    edit_show:false
+  },
+  {
+    id:'N0003',
+    person:"鹿九巫",
+    date:'2024.3.4',
+    title: '居民街道水质污染问题',
+    type:'生活垃圾污染',
+    level:'重度污染',
+    status:'解决中',
+    number:'1234566666',
+    address: '上海市普陀区金沙江路 1518 弄',
+    image:require("@/assets/example/pollute.png"),
+    delete_show:false,
+    edit_show:false
+  },
+  {
+    id:'N0006',
+    person:"鹿九巫",
+    date:'2024.3.4',
+    title: '居民街道水质污染问题',
+    type:'生活垃圾污染',
+    level:'重度污染',
+    status:'解决中',
+    number:'1234566666',
+    address: '上海市普陀区金沙江路 1518 弄',
+    image:require("@/assets/example/pollute.png"),
+    delete_show:false,
+    edit_show:false
+  },
+  {
+    id:'N0009',
+    person:"鹿九巫",
+    date:'2024.3.4',
+    title: '居民街道水质污染问题',
+    type:'生活垃圾污染',
+    level:'重度污染',
+    status:'解决遇阻',
+    number:'1234566666',
+    address: '上海市普陀区金沙江路 1518 弄',
+    image:require("@/assets/example/pollute.png"),
+    delete_show:false,
+    edit_show:false
+  },
+  {
+    id:'N0066',
+    person:"鹿九巫",
+    date:'2024.3.4',
+    title: '居民街道水质污染问题',
+    type:'生活垃圾污染',
+    level:'重度污染',
+    status:'未展开',
+    number:'1234566666',
+    address: '上海市普陀区金沙江路 1518 弄',
+    image:require("@/assets/example/pollute.png"),
+    delete_show:false,
+    edit_show:false
+  }
+]
+export const problemsData = problems_data

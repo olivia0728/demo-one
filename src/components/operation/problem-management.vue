@@ -6,7 +6,7 @@
     <div class="row1">
       <div class="key-word">
       <span>输入关键字：</span>
-      <el-input v-model="input" placeholder="请输入内容" class="input" size="small"></el-input>
+      <el-input v-model="keyword" placeholder="请输入内容" class="input" size="small"></el-input>
       </div>
       <div class="search">
       <el-button  size="small"  icon="el-icon-search">搜索</el-button>
@@ -79,15 +79,19 @@
       <!-- 问题列表区域 -->
    <div class="problem-form">
     <el-table
-    :data="tableData"
+    :data="problemsData"
     height="470"
     border
     style="width: 100%"
-    @row-click="handleEdit"
     >
     <!-- 扩展菜单 方便展示 -->
-    <el-table-column type="expand" width="50">
+    <el-table-column type="expand" width="40">
       <template slot-scope="props">
+        <div class="expand-area">
+ <!-- 把图片放上去 -->
+ <div class="image">
+          <img :src="props.row.image" class="url">
+        </div>
         <el-form label-position="left" inline class="table-expand" >
           <div class="detail-col1">
             <div class="id">
@@ -128,6 +132,8 @@
           </div>
 
         </el-form>
+        </div>
+       
       </template>
     </el-table-column>
     <el-table-column
@@ -165,24 +171,20 @@
      label="操作"
      width="180"
     >
-    <template slot-scope="props">
+    <template slot-scope="scope">
       <!-- 删除的提示框 -->
-      <el-dialog
-  title="删除提示"
-  :visible.sync="deleteMessage"
-  width="30%">
-  <div class="content">
-    确认删除编号为
-    <strong>{{ props.row.id }}</strong>
-    的问题吗
+      <el-popover
+  placement="top"
+  width="160"
+  v-model="scope.row.delete_show">
+  <span>确认编号{{scope.row.id}}的问题吗？</span>
+  <div style="text-align: right; margin: 0">
+    <el-button size="mini" type="text" @click="scope.row.delete_show = false">取消</el-button>
+    <el-button type="primary" size="mini" @click="sureDelete(scope)">确定</el-button>
   </div>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="deleteMessage = false">取 消</el-button>
-    <el-button type="primary" @click="handelDelete">确 定</el-button>
-  </span>
-      </el-dialog>
-    <el-button  size="mini"  icon="el-icon-delete" type="danger" @click="deleteMessage = true">删除</el-button>
-    <el-button v-show="props.row.status!='已解决'" size="mini"  icon="el-icon-thumb" type="warning" @click="handelSolve(props)">解决</el-button>
+</el-popover>
+    <el-button  size="mini"  icon="el-icon-delete" type="danger" @click="scope.row.delete_show= true">删除</el-button>
+    <el-button v-show="scope.row.status!='已解决'" size="mini"  icon="el-icon-thumb" type="warning" @click="handelSolve(scope)">解决</el-button>
     
     </template>
     </el-table-column>
@@ -201,6 +203,9 @@
 <script>
 // 导入头部
 import Header from '../my-components/header'
+// 从store中导入用户数据
+import {mapState} from 'pinia'
+import storeId from '@/store/index' 
 export default {
   name: 'SewagecontrolProblemManagement',
 
@@ -252,81 +257,14 @@ export default {
           label: '其他类型污染'
         }],
         type_value: '',
-        // 用户列表
-      tableData: [
-        {
-          id:'N0001',
-          person:"鹿九巫",
-          date:'2024.3.4',
-          title: '居民街道水质中度污染问题',
-          type:'生活垃圾污染',
-          level:'重度污染',
-          status:'未展开',
-          number:'1234566666',
-          address: '成都市新都区某街道3号'
-        },  {
-          id:'N0021',
-          person:"鹿九巫",
-          date:'2024.3.4',
-          title: '翻斗花园XX湖水水质重度污染问题',
-          type:'生活垃圾污染',
-          level:'重度污染',
-          status:'已解决',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          id:'N0003',
-          person:"鹿九巫",
-          date:'2024.3.4',
-          title: '居民街道水质污染问题',
-          type:'生活垃圾污染',
-          level:'重度污染',
-          status:'解决中',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          id:'N0006',
-          person:"鹿九巫",
-          date:'2024.3.4',
-          title: '居民街道水质污染问题',
-          type:'生活垃圾污染',
-          level:'重度污染',
-          status:'解决中',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          id:'N0009',
-          person:"鹿九巫",
-          date:'2024.3.4',
-          title: '居民街道水质污染问题',
-          type:'生活垃圾污染',
-          level:'重度污染',
-          status:'解决遇阻',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          id:'N0066',
-          person:"鹿九巫",
-          date:'2024.3.4',
-          title: '居民街道水质污染问题',
-          type:'生活垃圾污染',
-          level:'重度污染',
-          status:'未展开',
-          number:'1234566666',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }
-      ],
       // 弹出框信息
       // 1.删除信息
       deleteMessage:false,
       // 2.修改信息
       changeMessage:false,
       // 3.解决信息
-      resolveMessage:false
+      resolveMessage:false,
+      keyword:''
 
     };
   },
@@ -336,13 +274,19 @@ export default {
   },
   
   methods: {
-    handelDelete(){
-      // 弹出提示框
+    sureDelete(props){
+      const store = storeId()
+      const row = props.row
+      // 更新用户数据
+      const newData = this.problemsData.filter((item)=>item.id!==row.id)
+      // 同步store
+      store.updateProblemsData(newData)
       this.$message({
           message: '删除成功',
           type: 'success'
         });
-      this.deleteMessage = false
+      
+      
 
     },
     handelSolve(props){
@@ -359,6 +303,10 @@ export default {
   },
   components:{
     Header
+  },
+  computed:{
+    // 按需导入 -- 用户数据
+    ...mapState(storeId,['problemsData'])
   }
 };
 </script>
@@ -406,7 +354,19 @@ export default {
   margin-top: 10px;
     padding: 5px 10px;
     height: 520px;
-    .table-expand{
+    .expand-area{
+      display: flex;
+      // background-color: pink;
+      .image{
+        width: 180px;
+        height: 160px;
+        padding-left: 20px;
+        .url{
+          height: 100%;
+          width: 100%;
+        }
+      }
+      .table-expand{
      display: flex;
      .detail-col1{
       margin-left: 30px;
@@ -435,6 +395,8 @@ export default {
       }
      }
     }
+    }
+   
     .pages{
       text-align: center;
      padding-top: 8px;
