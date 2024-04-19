@@ -228,8 +228,12 @@ export default {
         return;
       } else {
         // 跳转
-        this.$router.push("/index/" + url);
-        // onsole.log(url)
+        const currentPath = this.$route.path;
+        const urlString = "/index/" + url;
+        console.log(currentPath);
+        console.log(urlString);
+        if (currentPath === urlString) return;
+        else this.$router.push(urlString);
       }
     },
     logOut() {
