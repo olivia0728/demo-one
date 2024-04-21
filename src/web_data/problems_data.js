@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-// 2024.4.16 -- 新增问题详情描述
-=======
->>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
 const problems_data = [
   {
     id:'N0001',
@@ -15,12 +11,7 @@ const problems_data = [
     address: '成都市新都区某街道3号',
     image:require("../assets/example/pollute.png"),
     delete_show:false,
-<<<<<<< HEAD
-    edit_show:false,
-    description:'这种污染可能源于工业废水的排放，这些废水含有重金属、化学物质等有害成分，一旦进入河流、湖泊等水域，就会破坏水体的生态平衡，影响水生生物的生存。此外，农业活动中过量使用的化肥和农药，也会通过雨水冲刷等方式进入水体，造成水体富营养化，导致藻类大量繁殖，消耗水中氧气，进一步恶化水质。'
-=======
     edit_show:false
->>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
   },  {
     id:'N0021',
     person:"鹿九巫",
@@ -33,12 +24,7 @@ const problems_data = [
     address: '上海市普陀区金沙江路 1518 弄',
     image:require("../assets/example/pollute.png"),
     delete_show:false,
-<<<<<<< HEAD
-    edit_show:false,
-    description:'这种污染可能源于工业废水的排放，这些废水含有重金属、化学物质等有害成分，一旦进入河流、湖泊等水域，就会破坏水体的生态平衡，影响水生生物的生存。此外，农业活动中过量使用的化肥和农药，也会通过雨水冲刷等方式进入水体，造成水体富营养化，导致藻类大量繁殖，消耗水中氧气，进一步恶化水质。'
-=======
     edit_show:false
->>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
   },
   {
     id:'N0003',
@@ -52,12 +38,7 @@ const problems_data = [
     address: '上海市普陀区金沙江路 1518 弄',
     image:require("@/assets/example/pollute.png"),
     delete_show:false,
-<<<<<<< HEAD
-    edit_show:false,
-    description:'这种污染可能源于工业废水的排放，这些废水含有重金属、化学物质等有害成分，一旦进入河流、湖泊等水域，就会破坏水体的生态平衡，影响水生生物的生存。此外，农业活动中过量使用的化肥和农药，也会通过雨水冲刷等方式进入水体，造成水体富营养化，导致藻类大量繁殖，消耗水中氧气，进一步恶化水质。'
-=======
     edit_show:false
->>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
   },
   {
     id:'N0006',
@@ -71,12 +52,7 @@ const problems_data = [
     address: '上海市普陀区金沙江路 1518 弄',
     image:require("@/assets/example/pollute.png"),
     delete_show:false,
-<<<<<<< HEAD
-    edit_show:false,
-    description:'这种污染可能源于工业废水的排放，这些废水含有重金属、化学物质等有害成分，一旦进入河流、湖泊等水域，就会破坏水体的生态平衡，影响水生生物的生存。此外，农业活动中过量使用的化肥和农药，也会通过雨水冲刷等方式进入水体，造成水体富营养化，导致藻类大量繁殖，消耗水中氧气，进一步恶化水质。'
-=======
     edit_show:false
->>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
   },
   {
     id:'N0009',
@@ -90,12 +66,7 @@ const problems_data = [
     address: '上海市普陀区金沙江路 1518 弄',
     image:require("@/assets/example/pollute.png"),
     delete_show:false,
-<<<<<<< HEAD
-    edit_show:false,
-    description:'这种污染可能源于工业废水的排放，这些废水含有重金属、化学物质等有害成分，一旦进入河流、湖泊等水域，就会破坏水体的生态平衡，影响水生生物的生存。此外，农业活动中过量使用的化肥和农药，也会通过雨水冲刷等方式进入水体，造成水体富营养化，导致藻类大量繁殖，消耗水中氧气，进一步恶化水质。'
-=======
     edit_show:false
->>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
   },
   {
     id:'N0066',
@@ -109,12 +80,7 @@ const problems_data = [
     address: '上海市普陀区金沙江路 1518 弄',
     image:require("@/assets/example/pollute.png"),
     delete_show:false,
-<<<<<<< HEAD
-    edit_show:false,
-    description:'这种污染可能源于工业废水的排放，这些废水含有重金属、化学物质等有害成分，一旦进入河流、湖泊等水域，就会破坏水体的生态平衡，影响水生生物的生存。此外，农业活动中过量使用的化肥和农药，也会通过雨水冲刷等方式进入水体，造成水体富营养化，导致藻类大量繁殖，消耗水中氧气，进一步恶化水质。'
-=======
     edit_show:false
->>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
   }
 ]
 export const problemsData = problems_data
