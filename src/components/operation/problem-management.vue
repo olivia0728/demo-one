@@ -68,13 +68,98 @@
        
         </div>
     </div>
+
     <!-- 添加按钮 -->
     <div class="row3">
       <div class="button">
-        <el-button type="primary" size="small"icon="el-icon-plus">新增问题</el-button>
+        <el-button type="primary" size="small"icon="el-icon-plus" @click="addProblem()">新增问题</el-button>
       </div>
     </div>
+
     </div>
+    <!-- 新增问题的弹出框 -->
+    <el-dialog
+  title="新增问题"
+  :visible.sync="addProblemVisible"
+  width="30%">
+  <!-- 内部表单 -->
+  <div class="dialog-content">
+    <div class="input">
+      <span class="input-title">问题名称：</span>
+      <el-input
+        style="width: 80%;"
+        placeholder="请输入问题名称"
+        show-word-limit
+        v-model="problem_name"
+        maxlength="30"
+        size="small">
+      </el-input>
+    </div>
+    <div class="input">
+      <span class="input-title">问题地址：</span>
+      <el-input
+        style="width: 80%;"
+        placeholder="请输入问题地址"
+        v-model="problem_address"
+        size="small">
+      </el-input>
+    </div>
+    <div class="input">
+      <span>问题类型：</span>
+      <el-select v-model="problem_type" placeholder="问题类型" size="small">
+    <el-option
+      v-for="item in type_options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
+    </div>
+    <div class="input">
+      <span> 问题程度：</span>
+      <el-select v-model="problem_level" placeholder="问题程度" size="small">
+    <el-option
+      v-for="item in level_options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
+    </div>
+    <div class="input">
+      <div style="margin-bottom: 20px;">上传图片：</div>
+      <div class="image-area" style="padding-left: 20px;">
+        <el-upload
+          class="upload-demo"
+          drag
+          action="https://jsonplaceholder.typicode.com/posts/"
+          multiple>
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        </el-upload>
+      </div>
+    
+    </div>
+    <div class="input">
+      <span class="input-title">问题详情：</span>
+      <el-input
+        style="margin-top: 10px;"
+        type="textarea"
+        placeholder="请输入问题详情"
+        v-model="problem_description"
+        maxlength="200"
+        show-word-limit
+        :rows="4"
+
+      >
+      </el-input>
+    </div>
+  </div>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="addProblemVisible = false">取 消</el-button>
+    <el-button type="primary" @click="sureAdd()">确 定</el-button>
+  </span>
+    </el-dialog>
   
       <!-- 问题列表区域 -->
    <div class="problem-form">
@@ -128,6 +213,10 @@
             <div class="number">
               <span class="title">联系方式：</span>
               <span class="value">{{ props.row.number }}</span>
+            </div>
+            <div class="number">
+              <span class="title">问题详情：</span>
+              <span class="value">{{ props.row.description }}</span>
             </div>
           </div>
 
@@ -264,7 +353,22 @@ export default {
       changeMessage:false,
       // 3.解决信息
       resolveMessage:false,
+<<<<<<< HEAD
+      keyword:'',
+
+      // 控制新增问题的弹出框
+      addProblemVisible:false,
+      // 新增问题表单元素
+      problem_name:'',
+      problem_type:'',
+      problem_level:'',
+      problem_address:'',
+      problem_description:'',
+
+
+=======
       keyword:''
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
 
     };
   },
@@ -290,15 +394,39 @@ export default {
 
     },
     handelSolve(props){
-      const row = props.row
+      const row = JSON.stringify(props.row)
       // console.log(row)
       // 跳转到详情页
       // 携带参数
+    
       this.$router.push({
           path: '/index/problemdetail',
           query:{rowData:row}
         })
 
+    },
+    // 新增问题方法
+    addProblem(){
+      // 弹出框
+      this.addProblemVisible = true
+      console.log("add")
+    },
+    // 确认新增问题
+    sureAdd(){
+      // 检查表单内容合法性
+      if(!this.problem_name||!this.problem_type||!this.problem_level||!this.problem_description||!this.problem_address)
+      {
+        // 弹出信息提示框
+        this.$message.error('请将问题信息填写完整');
+      }else{
+        this.$message({
+          message: '添加成功！请及时解决问题',
+          type: 'success'
+        });
+        // console.log('add')
+      this.addProblemVisible = false
+      }
+      
     }
   },
   components:{
@@ -349,17 +477,39 @@ export default {
    .row3{
      padding: 6px 15px;
    }
+   
+   
  }
+ /deep/ .el-dialog{
+   margin-top:15px !important;
+   margin-bottom: 0 !important;
+  }
+ // 弹出框内部样式
+ .dialog-content{
+    .input{
+      margin-bottom: 20px;
+    }
+   }
  .problem-form{
   margin-top: 10px;
     padding: 5px 10px;
     height: 520px;
     .expand-area{
+<<<<<<< HEAD
+      padding-right: 100px;
+      display: flex;
+      // background-color: pink;
+      .image{
+        margin-right: 30px;
+        width: 160px;
+        height: 140px;
+=======
       display: flex;
       // background-color: pink;
       .image{
         width: 180px;
         height: 160px;
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
         padding-left: 20px;
         .url{
           height: 100%;
@@ -369,7 +519,8 @@ export default {
       .table-expand{
      display: flex;
      .detail-col1{
-      margin-left: 30px;
+     width: 250px;
+
       div{
         margin-bottom: 6px;
         .title{
@@ -382,6 +533,7 @@ export default {
       }
      }
      .detail-col2{
+      width: 480px;
       margin-left: 140px;
       div{
         margin-bottom: 6px;
