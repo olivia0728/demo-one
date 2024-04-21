@@ -353,6 +353,7 @@ export default {
       changeMessage:false,
       // 3.解决信息
       resolveMessage:false,
+<<<<<<< HEAD
       keyword:'',
 
       // 控制新增问题的弹出框
@@ -365,6 +366,9 @@ export default {
       problem_description:'',
 
 
+=======
+      keyword:''
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
 
     };
   },
@@ -491,6 +495,7 @@ export default {
     padding: 5px 10px;
     height: 520px;
     .expand-area{
+<<<<<<< HEAD
       padding-right: 100px;
       display: flex;
       // background-color: pink;
@@ -498,6 +503,13 @@ export default {
         margin-right: 30px;
         width: 160px;
         height: 140px;
+=======
+      display: flex;
+      // background-color: pink;
+      .image{
+        width: 180px;
+        height: 160px;
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
         padding-left: 20px;
         .url{
           height: 100%;

@@ -95,10 +95,13 @@
      width="300"
     >
     <template slot-scope="scope">
+<<<<<<< HEAD
      
       <el-button  size="mini"  icon="el-icon-delete" type="danger" @click="scope.row.delete_show = true">删除</el-button>
 
       <!-- 删除操作 -->
+=======
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
       <el-popover
   placement="top"
   width="160"
@@ -107,6 +110,7 @@
   <div style="text-align: right; margin: 0">
     <el-button size="mini" type="text" @click="scope.row.delete_show = false">取消</el-button>
     <el-button type="primary" size="mini" @click="sureDelete(scope)">确定</el-button>
+<<<<<<< HEAD
     
   </div>
 </el-popover>
@@ -126,6 +130,17 @@
       <el-button  size="mini" style="margin-left: 10px;" icon="el-icon-edit" type="primary" @click="scope.row.edit_show = true">修改</el-button>
       <!-- 设置管理员操作 -->
       <el-button :type="scope.row.identity==='普通用户'?'success':'info'" icon="el-icon-user-solid" size="mini" @click="scope.row.admin_show = true">{{scope.row.identity==='普通用户'?'设置管理员':'取消管理员'}}</el-button>
+=======
+  </div>
+</el-popover>
+<el-button  size="mini"  icon="el-icon-delete" type="danger" @click="scope.row.delete_show = true">删除</el-button>
+
+      <!-- 删除操作 -->
+      
+        
+      <!-- 修改操作 -->
+      <el-button  size="mini"  icon="el-icon-edit" type="primary" @click="scope.row.edit_show = true">修改</el-button>
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
       <!-- 修改弹出框 -->
    <el-dialog
   title="提示"
@@ -134,6 +149,7 @@
   <div id="dialog">
     <div class="username">
       <span class="title">用户姓名:</span>
+<<<<<<< HEAD
       <el-input v-model="newUsername" placeholder="请输入内容" size="small" class="input"></el-input>
     </div>
     <div class="phone">
@@ -143,6 +159,17 @@
     <div class="address">
       <span class="title">用户地址:</span>
       <el-input v-model="newAddress" placeholder="请输入内容" size="small" class="input"></el-input>
+=======
+      <el-input v-model="username" placeholder="请输入内容" size="small" class="input"></el-input>
+    </div>
+    <div class="phone">
+      <span class="title">用户电话号码:</span>
+      <el-input v-model="phone" placeholder="请输入内容" size="small" class="input"></el-input>
+    </div>
+    <div class="address">
+      <span class="title">用户地址:</span>
+      <el-input v-model="address" placeholder="请输入内容" size="small" class="input"></el-input>
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
     </div>
   </div>
   <div class="buttons">
@@ -184,11 +211,14 @@ export default {
       username:'',
       phone:'',
       address:'',
+<<<<<<< HEAD
       // 修改用户数据
       newUsername:'',
       newPhone:'',
       newAddress:'',
       // 默认日期
+=======
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
       time:dayjs(new Date()).format('YYYY-MM-DD')
       }
     },
@@ -229,9 +259,13 @@ export default {
         this.address = ''
         this.dialogVisible = false
     }
+<<<<<<< HEAD
 
     },
     // 删除操作
+=======
+    },
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
     sureDelete(props){
       const store = storeId()
       const row = props.row
@@ -244,6 +278,7 @@ export default {
           type: 'success'
         });
     },
+<<<<<<< HEAD
     // 编辑操作
     sureEdit(props){
       const store = storeId()
@@ -272,11 +307,15 @@ export default {
           type: 'success'
         });
       }
+=======
+    sureEdit(props){
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
       this.$message({
           message: '修改成功',
           type: 'success'
         });
       props.row.edit_show = false
+<<<<<<< HEAD
     },
     // 身份操作
     changeIdentity(scope){
@@ -301,6 +340,8 @@ export default {
 
       // 收回弹出框
       row.admin_show = false
+=======
+>>>>>>> 1fb5ee5495866992071ec7f10ecc558fef7f6928
     }
     
   },
