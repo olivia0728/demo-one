@@ -3,6 +3,7 @@ import { defineStore } from 'pinia' //引入
 import { usersData } from '@/web_data/users_data'
 import { problemsData } from '@/web_data/problems_data'
 import { todoData } from '@/web_data/todo_data'
+import {problemRouteData} from '@/web_data/problem-route-data'
 const useStore = defineStore('storeId', {
   // arrow function recommended for full type inference
   state: () => {
@@ -15,7 +16,9 @@ const useStore = defineStore('storeId', {
       // 问题列表
       problemsData:problemsData,
       // 待办事项列表
-      todoData:todoData
+      todoData:todoData,
+      // 问题解决路线列表
+      problemRouteData:problemRouteData
     }
   },
   // 相当于 vue 中的 computed 计算属性
@@ -38,6 +41,10 @@ const useStore = defineStore('storeId', {
     // 更新待办列表
     updateTodoData(newData){
       this.todoData = newData
+    },
+    // 更新问题解决路线列表
+    updateProblemRouteData(newData){
+      this.problemRouteData = newData
     }
   }
 })
