@@ -22,15 +22,27 @@
     <div class="split-line" style="height: 10px"></div>
     <!-- 弹出层 -->
     <el-dialog
-      title="日数据详情"
+      title="  日数据详情 "
       :visible.sync="isDialogVisible"
-      width="30%"
+      width="70%"
       :before-close="handleClose"
     >
-      <span>您选择的日期是: {{ selectedDate }}</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="handleDialogClose">关闭</el-button>
-      </span>
+      <div class="dialog-content">
+        <div class="top-box">{{ selectedDate }}</div>
+        <div class="bottom-box">
+          <div class="left-box" style="width: 50%">
+            <!-- 左侧盒子内容 -->
+            <div id="leftChart" style="height: 300px"></div>
+          </div>
+          <div class="right-box" style="width: 50%">
+            <!-- 右侧盒子内容 -->
+            <div id="rightChart" style="height: 300px"></div>
+          </div>
+        </div>
+      </div>
+      <!-- <span slot="footer" class="dialog-footer">
+         <el-button @click="handleDialogClose">关闭</el-button> 
+      </span> -->
     </el-dialog>
     <!-- 成都市数据 -->
     <div class="chart-row2" style="width: 100%">
@@ -110,6 +122,10 @@ export default {
 
   data() {
     return {
+      //日数据
+      lineChart: null,
+      pieChart1: null,
+      pieChart2: null,
       //存储日期
       selectedDate: null,
       isDialogVisible: false,
@@ -147,12 +163,133 @@ export default {
     this.initChartCol2();
     this.initChartCol3();
     this.initChartCol4();
+    this.$nextTick(() => {
+      this.initCharts();
+    });
   },
 
   methods: {
+    //日数据
+    initCharts() {
+      // 左侧图表
+      var leftChart = echarts.init(document.getElementById("leftChart"));
+      leftChart.setOption({
+        title: {
+          text: "污染程度占比",
+          left: "center",
+          top: "5%",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18,
+          },
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
+        },
+        legend: {
+          orient: "horizontal",
+          bottom: 0,
+          textStyle: {
+            color: "white",
+          },
+          data: ["重度", "中度", "轻度", "微度"],
+        },
+        series: [
+          {
+            name: "污染程度占比",
+            type: "pie",
+            radius: "44%",
+            center: ["50%", "50%"],
+            label: {
+              lineLength: 2, // 调整扇形的线条长度
+            },
+            data: [
+              { value: 12, name: "重度" },
+              { value: 36, name: "中度" },
+              { value: 24, name: "轻度" },
+              { value: 28, name: "微度" },
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)",
+              },
+            },
+          },
+        ],
+      });
+
+      // 右侧图表
+      // 右侧折线图
+      var rightChart = echarts.init(document.getElementById("rightChart"));
+      rightChart.setOption({
+        title: {
+          text: "污染物质含量",
+          left: "center",
+          top: "5%",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18,
+          },
+        },
+        tooltip: {
+          trigger: "axis",
+        },
+        legend: {
+          data: [
+            "污染物质1",
+            "污染物质2",
+            "污染物质3",
+            "污染物质4",
+            "污染物质5",
+          ],
+          bottom: 0,
+          textStyle: {
+            color: "white",
+          },
+        },
+        xAxis: {
+          type: "category",
+          data: ["A", "B", "C", "D", "E"],
+          axisLabel: {
+            color: "white", // 将横坐标文字颜色设置为白色
+          },
+        },
+        yAxis: {
+          type: "value",
+          name: "含量",
+          min: 0.001,
+          axisLabel: {
+            color: "white", // 将纵坐标文字颜色设置为白色
+          },
+          nameTextStyle: {
+            color: "white", // 将纵坐标文字颜色设置为白色
+          },
+        },
+        series: [
+          {
+            name: "污染物质1",
+            type: "line",
+            data: [0.002, 0.004, 0.001, 0.006, 0.007],
+          },
+          {
+            name: "污染物质2",
+            type: "line",
+            data: [0.004, 0.005, 0.003, 0.004, 0.002],
+          },
+        ],
+      });
+    },
     // 关闭弹出层
     handleDialogClose() {
       this.isDialogVisible = false;
+    },
+    //
+
+    handleClose() {
+      this.isDialogVisible = false; // 关闭弹窗
     },
     initChartCol1() {
       var myChart = echarts.init(document.getElementById("chart1"));
@@ -849,6 +986,43 @@ export default {
 </script>
 <style scoped lang="less">
 #data-analyze {
+  /deep/.el-dialog {
+    background-color: #064965;
+    height: 600px;
+    width: 90%;
+    .el-dialog__title {
+      line-height: 24px;
+      font-size: 18px;
+      color: #3cd5ff;
+      border-left: 3px solid #3cd5ff;
+    }
+    .dialog-content {
+      display: flex;
+      flex-direction: column;
+      padding: 5px 5px;
+      color: #a9c6ff;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .bottom-box {
+      display: flex;
+    }
+    .top-box {
+      padding: 7px;
+      font-size: 18px;
+      text-align: center;
+    }
+    .left-box {
+      flex: 1;
+      padding: 10px;
+    }
+
+    .right-box {
+      flex: 1;
+      padding: 10px;
+    }
+  }
+
   .row1-title {
     background-color: #064965;
     padding: 5px;
