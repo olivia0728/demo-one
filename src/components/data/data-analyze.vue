@@ -29,14 +29,35 @@
     >
       <div class="dialog-content">
         <div class="top-box">{{ selectedDate }}</div>
+        <el-divider> </el-divider>
+        <div class="middle-box">
+          <div style="width: 33%">
+            <el-statistic title="今日预警" :value="26" />
+          </div>
+          <div style="width: 33%">
+            <el-statistic title="今日隐患" :value="50" />
+          </div>
+          <div style="width: 33%">
+            <el-statistic title="今日解决" :value="68" />
+          </div>
+        </div>
+        <el-divider> </el-divider>
         <div class="bottom-box">
           <div class="left-box" style="width: 50%">
-            <!-- 左侧盒子内容 -->
             <div id="leftChart" style="height: 300px"></div>
           </div>
           <div class="right-box" style="width: 50%">
-            <!-- 右侧盒子内容 -->
             <div id="rightChart" style="height: 300px"></div>
+          </div>
+        </div>
+        <el-divider> </el-divider>
+
+        <div class="other-box">
+          <div class="left" style="width: 50%">
+            <div id="map-one" style="width: 100%; height: 390px"></div>
+          </div>
+          <div class="right" style="width: 50%">
+            <div id="heatmap" style="height: 390px"></div>
           </div>
         </div>
       </div>
@@ -109,7 +130,6 @@
 </template>
 
 <script>
-import { Dialog } from "element-ui";
 import "echarts-liquidfill";
 import * as echarts from "echarts";
 import mapJson from "../../../src/show_data/map.json";
@@ -122,6 +142,7 @@ export default {
 
   data() {
     return {
+      chart: null,
       //日数据
       lineChart: null,
       pieChart1: null,
@@ -171,11 +192,199 @@ export default {
   methods: {
     //日数据
     initCharts() {
+      //实时柱状图
+      var heatChart = echarts.init(document.getElementById("heatmap"));
+      var option = {
+        title: {
+          text: "各污染物实时变化数据",
+          left: "center",
+          top: "5%",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18,
+          },
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{b}<br/>数值：{c}",
+        },
+        xAxis: {
+          max: "dataMax",
+          axisLabel: {
+            color: "white",
+          },
+        },
+        yAxis: {
+          type: "category",
+          data: ["磷", "氮", "重金属", "硫酸盐", "铀"],
+          inverse: true,
+          animationDuration: 300,
+          animationDurationUpdate: 300,
+          max: 5,
+          axisLabel: {
+            color: "white",
+          },
+        },
+        series: [
+          {
+            realtimeSort: true,
+            name: "实时变化",
+            type: "bar",
+            data: [],
+            label: {
+              show: true,
+              position: "right",
+              valueAnimation: true,
+            },
+          },
+        ],
+
+        animationDuration: 0,
+        animationDurationUpdate: 3000,
+        animationEasing: "linear",
+        animationEasingUpdate: "linear",
+      };
+      heatChart.setOption(option);
+
+      // 定义更新数据的函数
+      function run() {
+        const randomData = [];
+        for (let i = 0; i < 5; i++) {
+          randomData.push(Math.round(Math.random() * 100));
+        }
+        // 更新 heatChart 实例中的数据
+        heatChart.setOption({
+          series: [
+            {
+              type: "bar",
+              data: randomData,
+            },
+          ],
+        });
+      }
+      run(); // 初始化数据
+      // 设置定时器，每 3000 毫秒更新一次数据
+      setInterval(run, 3000);
+      //地图
+      var myChart = echarts.init(document.getElementById("map-one"));
+      myChart.setOption({
+        title: {
+          text: "成都各地区污水占比",
+          left: "center",
+          top: "5%",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18,
+          },
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{b}<br/>污水占比：{c}%",
+        },
+        series: [
+          {
+            type: "map",
+            map: "chengdu",
+            data: [
+              {
+                name: "锦江区",
+                value: 55,
+                itemStyle: { normal: { areaColor: "#ee6666" } },
+              },
+              {
+                name: "新都区",
+                value: 12,
+                itemStyle: { normal: { areaColor: "#f39c51" } },
+              },
+              {
+                name: "双流区",
+                value: 20,
+                itemStyle: { normal: { areaColor: "#fac858" } },
+              },
+              {
+                name: "青羊区",
+                value: 34,
+                itemStyle: { normal: { areaColor: "#f39c51" } },
+              },
+              {
+                name: "武侯区",
+                value: 11,
+                itemStyle: { normal: { areaColor: "#fac858" } },
+              },
+              {
+                name: "成华区",
+                value: 17,
+                itemStyle: { normal: { areaColor: "#f39c51" } },
+              },
+              {
+                name: "金牛区",
+                value: 12,
+                itemStyle: { normal: { areaColor: "#91cc75" } },
+              },
+              {
+                name: "龙泉驿区",
+                value: 11,
+                itemStyle: { normal: { areaColor: "#fac858" } },
+              },
+              {
+                name: "青白江区",
+                value: 20,
+                itemStyle: { normal: { areaColor: "#f39c51" } },
+              },
+              {
+                name: "温江区",
+                value: 20,
+                itemStyle: { normal: { areaColor: "#f39c51" } },
+              },
+              {
+                name: "郫都区",
+                value: 15,
+                itemStyle: { normal: { areaColor: "#ee6666" } },
+              },
+              {
+                name: "新津区",
+                value: 11,
+                itemStyle: { normal: { areaColor: "#91cc75" } },
+              },
+              {
+                name: "大邑县",
+                value: 2,
+                itemStyle: { normal: { areaColor: "#f39c51" } },
+              },
+              {
+                name: "金堂县",
+                value: 5,
+                itemStyle: { normal: { areaColor: "#91cc75" } },
+              },
+              {
+                name: "蒲江县",
+                value: 10,
+                itemStyle: { normal: { areaColor: "#f39c51" } },
+              },
+            ],
+            zoom: 0.9,
+            itemStyle: {
+              // 普通状态下的样式
+              normal: {
+                // 地图区域的颜色
+                areaColor: "#23a5d4",
+                // 地图边界线的颜色
+                borderColor: "#fff",
+              },
+              // 高亮状态下的样式
+              emphasis: {
+                // 鼠标悬停时地图区域的颜色
+                areaColor: "#b7d4a5",
+              },
+            },
+          },
+        ],
+      });
       // 左侧图表
       var leftChart = echarts.init(document.getElementById("leftChart"));
       leftChart.setOption({
         title: {
-          text: "污染程度占比",
+          text: "污染程度总占比",
           left: "center",
           top: "5%",
           textStyle: {
@@ -197,7 +406,7 @@ export default {
         },
         series: [
           {
-            name: "污染程度占比",
+            name: "污染程度总占比",
             type: "pie",
             radius: "44%",
             center: ["50%", "50%"],
@@ -221,12 +430,11 @@ export default {
         ],
       });
 
-      // 右侧图表
       // 右侧折线图
       var rightChart = echarts.init(document.getElementById("rightChart"));
       rightChart.setOption({
         title: {
-          text: "污染物质含量",
+          text: "每时段污染物质含量",
           left: "center",
           top: "5%",
           textStyle: {
@@ -252,7 +460,7 @@ export default {
         },
         xAxis: {
           type: "category",
-          data: ["A", "B", "C", "D", "E"],
+          data: ["4:00", "8:00", "12:00", "16:00", "20:00", "0:00"],
           axisLabel: {
             color: "white", // 将横坐标文字颜色设置为白色
           },
@@ -260,7 +468,7 @@ export default {
         yAxis: {
           type: "value",
           name: "含量",
-          min: 0.001,
+          min: 0.0,
           axisLabel: {
             color: "white", // 将纵坐标文字颜色设置为白色
           },
@@ -272,12 +480,27 @@ export default {
           {
             name: "污染物质1",
             type: "line",
-            data: [0.002, 0.004, 0.001, 0.006, 0.007],
+            data: [0.002, 0.004, 0.001, 0.006, 0.007, 0.006],
           },
           {
             name: "污染物质2",
             type: "line",
-            data: [0.004, 0.005, 0.003, 0.004, 0.002],
+            data: [0.004, 0.005, 0.003, 0.004, 0.003, 0.004],
+          },
+          {
+            name: "污染物质3",
+            type: "line",
+            data: [0.001, 0.003, 0.002, 0.002, 0.001, 0.002],
+          },
+          {
+            name: "污染物质4",
+            type: "line",
+            data: [0.002, 0.003, 0.002, 0.003, 0.002, 0.003],
+          },
+          {
+            name: "污染物质5",
+            type: "line",
+            data: [0.001, 0.002, 0.001, 0.001, 0.001, 0.001],
           },
         ],
       });
@@ -988,7 +1211,7 @@ export default {
 #data-analyze {
   /deep/.el-dialog {
     background-color: #064965;
-    height: 600px;
+    height: 1200px;
     width: 90%;
     .el-dialog__title {
       line-height: 24px;
@@ -999,18 +1222,36 @@ export default {
     .dialog-content {
       display: flex;
       flex-direction: column;
-      padding: 5px 5px;
-      color: #a9c6ff;
+      padding: 3px 5px;
       font-size: 14px;
       font-weight: bold;
     }
     .bottom-box {
       display: flex;
     }
+    .other-box {
+      display: flex;
+    }
     .top-box {
-      padding: 7px;
-      font-size: 18px;
+      padding: 5px;
+      font-size: 25px;
       text-align: center;
+      color: #a9c6ff;
+      align-items: center;
+    }
+    .middle-box {
+      height: 100px;
+      display: flex;
+      text-align: center;
+      align-items: center;
+    }
+    .el-statistic .head {
+      margin-bottom: 17px;
+      color: #ffffff;
+      font-size: 22px;
+    }
+    .el-statistic .con {
+      color: #f39c51;
     }
     .left-box {
       flex: 1;
