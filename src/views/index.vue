@@ -188,6 +188,14 @@ export default {
             },
           ],
         },
+        {
+          label:'预警系统',
+          url:'warning'
+        },
+        {
+          label:'检测界面',
+          url:'warningdetection'
+        }
       ],
 
       defaultProps: {
