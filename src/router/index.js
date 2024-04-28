@@ -18,6 +18,10 @@ import ProblemDetail from '../components/problem-detail/problem-detail.vue'
 import DataStand from '../components/data/data-stand.vue'
 //历史日期数据
 import Datedetail from '../components/data/datedetail.vue'
+// 预警页面
+import WarningIndex from '../components/warning/warning-index.vue'
+// 数据检测界面
+import WarningDetection from '../components/warning/warning-detection.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -119,6 +123,18 @@ const routes = [{
         path: 'datedetail',
         name: 'datedetail',
         component: Datedetail
+      },
+      // 预警页面
+      {
+        path:'warning',
+        name:'warning',
+        component:WarningIndex
+      },
+      // 数据检测界面 
+      {
+        path:'warningdetection',
+        name:'warningdetection',
+        component:WarningDetection
       }
     ]
   }

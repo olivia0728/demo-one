@@ -19,21 +19,23 @@
 </template>
 
 <script>
+// 从store中导入用户数据
+import {mapState} from 'pinia'
+import storeId from '@/store/index' 
 import Attention from '../my-components/attention.vue'
 export default {
   name: 'SewagecontrolLoginEnter',
 
   data() {
     return {
-      username:"",
-      password:"",
+      username:"lisii",
+      password:"admin123456",
       showUsername:false,
       showPassword:false
     };
   },
 
   mounted() {
-    
   },
 
   methods: {
@@ -58,14 +60,34 @@ export default {
         // 弹窗提示
         this.$message.error('请将信息填写完整');
       }
-      else
-      // 第二步 -- 跳转
-      this.$router.push('/index')
+      else{
+        // 判断是否存在该用户
+        const isExist = this.tableData.filter((item)=>{
+          return item.username === this.username
+        })
+        if(isExist.length === 0){
+          this.$message.error('不存在该用户，请先进行注册');
+        }else{
+          // 判断密码是否正确
+          if(this.password!==isExist[0].password)  this.$message.error('密码错误，请重新输入');
+          else{
+            // 第一步 -- 提示框
+            this.$message.success(`用户${isExist[0].username}登录成功`);
+            // 第二步 -- 跳转
+            this.$router.push('/index')
+          }
+        }
+      }
+      
 
     }
   },
   components:{
     Attention
+  },
+  computed:{
+    // 按需导入 -- 用户数据
+    ...mapState(storeId,['tableData'])
   }
 };
 </script>

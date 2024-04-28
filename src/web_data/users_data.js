@@ -8,7 +8,10 @@ const users_data = [
     edit_show:false,
     admin_show:false,
     // 是否为管理员
-    identity:'管理员'
+    identity:'管理员',
+    // 账号信息
+    username:'zhangsan_111',
+    password:'admin123456'
   }, {
     date:'2024.3.4',
     name: '李四',
@@ -18,7 +21,10 @@ const users_data = [
     edit_show:false,
     admin_show:false,
     // 是否为管理员
-    identity:'普通用户'
+    identity:'普通用户',
+    // 账号信息
+    username:'lisii',
+    password:'admin123456'
   }, {
     date:'2024.3.4',
     name: '王五',
@@ -27,7 +33,10 @@ const users_data = [
     delete_show:false,
     edit_show:false,
     admin_show:false,
-    identity:'普通用户'
+    identity:'普通用户',
+    // 账号信息
+    username:'_wwu123',
+    password:'admin123456'
   }, {
     date:'2024.3.4',
     name: '李明明',
@@ -37,7 +46,10 @@ const users_data = [
     edit_show:false,
     admin_show:false,
     // 是否为管理员
-    identity:'普通用户'
+    identity:'普通用户',
+    // 账号信息
+    username:'limming',
+    password:'admin123456'
   }, {
     date:'2024.3.4',
     name: '刘七',
@@ -47,7 +59,10 @@ const users_data = [
     edit_show:false,
     admin_show:false,
     // 是否为管理员
-    identity:'管理员'
+    identity:'管理员',
+    // 账号信息
+    username:'liu_seven',
+    password:'admin123456'
   }, {
     date:'2024.3.4',
     name: '小红',
@@ -57,7 +72,10 @@ const users_data = [
     edit_show:false,
     admin_show:false,
     // 是否为管理员
-    identity:'管理员'
+    identity:'管理员',
+    // 账号信息
+    username:'xiaoRedd',
+    password:'admin123456'
   }, {
     date:'2024.3.4',
     name: '王小虎',
@@ -67,7 +85,10 @@ const users_data = [
     edit_show:false,
     admin_show:false,
     // 是否为管理员
-    identity:'普通用户'
+    identity:'普通用户',
+    // 账号信息
+    username:'wangxiaohuu',
+    password:'admin123456'
   }
 ]
 export const usersData = users_data
