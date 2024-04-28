@@ -17,7 +17,12 @@
       <div class="days">
         <el-calendar v-model="value" class="calendar">
           <template slot="dateCell" slot-scope="{ date, data }">
-            <div @click="handleDateClick(date)">
+            <div
+              @click="
+                dialogVisible = true;
+                handleDateClick(date);
+              "
+            >
               <p :class="data.isSelected ? 'is-selected' : ''">
                 {{ data.day.split("-")[2] }}
               </p>
@@ -28,39 +33,46 @@
       <div class="todo">
         <!-- 标题 -->
         <div class="todoTitle">
-          <i class="el-icon-notebook-2" style="font-size: 18px;"></i>
-        待办事项
-        <span class="todoIcon">
-          <i class="el-icon-arrow-right"></i>
-        </span>
+          <i class="el-icon-notebook-2" style="font-size: 18px"></i>
+          待办事项
+          <span class="todoIcon">
+            <i class="el-icon-arrow-right"></i>
+          </span>
         </div>
         <!-- 主体区域 -->
         <div class="todoBody">
           <!-- 事件显示区域 -->
           <div class="todoShow">
-            <div class="singleTodo" v-for="(item,index) in RealtodoList" :key="index" @click="gotoWhere(item.url)">
-              <i class="el-icon-info" style="color: #528684;"></i>
+            <div
+              class="singleTodo"
+              v-for="(item, index) in RealtodoList"
+              :key="index"
+              @click="gotoWhere(item.url)"
+            >
+              <i class="el-icon-info" style="color: #528684"></i>
               <!-- 表示收藏 -->
-              <i class="el-icon-star-on" style="color: #efd94b;font-size: 18px;" v-show="item.star"></i>
-              {{item.content}}
-              <span class="time">{{item.time}}</span>
+              <i
+                class="el-icon-star-on"
+                style="color: #efd94b; font-size: 18px"
+                v-show="item.star"
+              ></i>
+              {{ item.content }}
+              <span class="time">{{ item.time }}</span>
             </div>
           </div>
           <!-- 事件分页区域 -->
           <div class="pagination-area">
             <div class="todoPages">
-            <el-pagination
-    class="pagination"
-    layout="prev, pager, next"
-    :total="20"
-    @current-change="changePage"
-    :current-page="currentPage"
-    >
-  </el-pagination>
+              <el-pagination
+                class="pagination"
+                layout="prev, pager, next"
+                :total="20"
+                @current-change="changePage"
+                :current-page="currentPage"
+              >
+              </el-pagination>
+            </div>
           </div>
-          </div>
-          
-
         </div>
       </div>
       <div class="openUse">
@@ -98,13 +110,15 @@
 import Header from "../my-components/header";
 import DataBox from "../my-components/databox";
 // 从store中导入用户数据
-import {mapState} from 'pinia'
-import storeId from '@/store/index' 
+import { mapState } from "pinia";
+import storeId from "@/store/index";
 export default {
   name: "SewagecontrolIndexHome",
 
   data() {
     return {
+      //日历弹窗
+      dialogVisible: false,
       value: new Date(),
       // 标题部分
       title: "首页",
@@ -140,8 +154,8 @@ export default {
         },
       ],
       currentPage: 1,
-      RealtodoList: '',
-      
+      RealtodoList: "",
+
       // 工具数组
       toolList: [
         {
@@ -165,10 +179,18 @@ export default {
 
   mounted() {
     // 初始设置 -- 第一页
-    this.RealtodoList = this.todoData[0].singleTodo
+    this.RealtodoList = this.todoData[0].singleTodo;
   },
 
   methods: {
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then((_) => {
+          done();
+        })
+        .catch((_) => {});
+    },
+
     handleDateClick(date) {
       //点击日期
       const formattedDate =
@@ -179,27 +201,27 @@ export default {
         ("0" + date.getDate()).slice(-2);
       // 使用路由跳转到日期详情页面，并将日期作为参数传递
       console.log("点击的日期：", formattedDate); // 添加 console.log 检查选择的日期
-      this.$router.push({ path: `/index/datedetail/` });
+      this.$router.push({ path: `/index/dataanalyze?date=${formattedDate}` });
+
       //this.$router.push({ path: `/datedetail/${formattedDate}` });
     },
-   // 换页
-   changePage(pageNumber){
+    // 换页
+    changePage(pageNumber) {
       // console.log(pageNumber)
-      const pageIndex = pageNumber - 1
-      this.RealtodoList = this.todoData[pageIndex].singleTodo
+      const pageIndex = pageNumber - 1;
+      this.RealtodoList = this.todoData[pageIndex].singleTodo;
     },
-    gotoWhere(url){
-     
-      this.$router.push(url)
-    }
+    gotoWhere(url) {
+      this.$router.push(url);
+    },
   },
   components: {
     Header,
     DataBox,
   },
-  computed:{
-    ...mapState(storeId,['todoData'])
-  }
+  computed: {
+    ...mapState(storeId, ["todoData"]),
+  },
 };
 </script>
 <style scoped lang="less">
@@ -270,22 +292,21 @@ export default {
           }
         }
       }
-      .pagination-area{
+      .pagination-area {
+        width: 100%;
+        position: absolute;
+        bottom: -6px;
+        // background-color: pink;
+        .todoPages {
           width: 100%;
-          position: absolute;
-          bottom: -6px;
-          // background-color: pink;
-          .todoPages{
-            width: 100%;
           display: flex;
           flex-direction: column;
           box-sizing: border-box;
-          .pagination{
+          .pagination {
             align-self: center;
           }
-
         }
-        }
+      }
     }
     .openUse {
       margin-right: 5px;
