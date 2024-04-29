@@ -1,0 +1,31 @@
+<svg width="304.000000" height="318.000000" viewBox="0 0 304 318" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<filter id="filter_3_2759_dd" x="-0.400391" y="6.600006" width="303.800781" height="310.800018" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+			<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+			<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+			<feOffset dx="0" dy="1"/>
+			<feGaussianBlur stdDeviation="4.66667"/>
+			<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+			<feColorMatrix type="matrix" values="0 0 0 0 0.070588 0 0 0 0 0.55686 0 0 0 0 0.9098 0 0 0 0.35 0"/>
+			<feBlend mode="normal" in2="shape" result="effect_innerShadow_1"/>
+		</filter>
+		<linearGradient x1="100.000000" y1="4.000000" x2="100.000000" y2="0.000000" id="paint_linear_3_2763_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#3662A4"/>
+			<stop offset="1.000000" stop-color="#0A101F"/>
+		</linearGradient>
+	</defs>
+	<rect id="分组" width="301.000000" height="316.000000" transform="translate(1.000000 0.000000)" fill="#FFFFFF" fill-opacity="0"/>
+	<path id="矩形" d="M100 0L203 0C203 4.41 199.41 8 195 8L108 8C103.58 8 100 4.41 100 0Z" fill="url(#paint_linear_3_2763_0)" fill-opacity="1.000000" fill-rule="evenodd"/>
+	<path id="矩形" d="M203 0C203 4.41 199.41 8 195 8L108 8C103.58 8 100 4.41 100 0L203 0ZM200.9 2.1C200.9 4.19 199.19 5.89 197.1 5.89L105.9 5.89C103.8 5.89 102.1 4.19 102.1 2.1L200.9 2.1Z" fill="#4F94E6" fill-opacity="1.000000" fill-rule="evenodd"/>
+	<g filter="url(#filter_3_2759_dd)">
+		<mask id="mask_3_2759" fill="white">
+			<path id="形状结合" d="M96.1201 8L17.7998 8C8.52148 8 1 15.5216 1 24.8L1 299.2C1 308.478 8.52148 316 17.7998 316L285.2 316C294.479 316 302 308.478 302 299.2L302 24.8C302 15.5216 294.479 8 285.2 8L207.763 8L202.54 17.9149L101.808 17.9149L96.1201 8Z" clip-rule="evenodd" fill="" fill-opacity="1.000000" fill-rule="evenodd"/>
+		</mask>
+		<path id="形状结合" d="M96.1201 8L17.7998 8C8.52148 8 1 15.5216 1 24.8L1 299.2C1 308.478 8.52148 316 17.7998 316L285.2 316C294.479 316 302 308.478 302 299.2L302 24.8C302 15.5216 294.479 8 285.2 8L207.763 8L202.54 17.9149L101.808 17.9149L96.1201 8Z" clip-rule="evenodd" fill="#050D4B" fill-opacity="1.000000" fill-rule="evenodd" mask="url(#mask_3_2759)"/>
+	</g>
+	<path id="形状结合" d="M102.619 16.5149L96.9307 6.60001L17.7998 6.60001Q14.0323 6.60001 10.8161 7.9316Q7.59726 9.26427 4.93066 11.9307Q2.26483 14.5963 0.932069 17.814Q-0.400391 21.0311 -0.400391 24.8L-0.400391 299.2Q-0.400391 302.969 0.932018 306.186Q2.26478 309.404 4.93066 312.069Q7.59478 314.734 10.8108 316.066Q14.029 317.4 17.7998 317.4L285.2 317.4Q288.968 317.4 292.184 316.068Q295.403 314.736 298.069 312.069Q300.735 309.404 302.068 306.186Q303.4 302.969 303.4 299.2L303.4 24.8Q303.4 21.0309 302.068 17.8137Q300.735 14.5961 298.069 11.9307Q295.403 9.26427 292.184 7.9316Q288.968 6.60001 285.2 6.60001L206.917 6.60001L201.695 16.5149L102.619 16.5149ZM101.808 17.9149L96.1201 8L17.7998 8C8.52148 8 1 15.5216 1 24.8L1 299.2C1 308.478 8.52148 316 17.7998 316L285.2 316C294.479 316 302 308.478 302 299.2L302 24.8C302 15.5216 294.479 8 285.2 8L207.763 8L202.54 17.9149L101.808 17.9149Z" clip-rule="evenodd" fill="#08488A" fill-opacity="1.000000" fill-rule="evenodd"/>
+</svg>

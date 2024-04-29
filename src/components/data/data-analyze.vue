@@ -17,9 +17,10 @@
         </div>
         <div id="chart2" style="width: 100%; height: 354px"></div>
       </div>
+      <img src="../../assets/usesvg/splitline.svg" alt="SVG Image" />
     </div>
     <!-- 分割线 -->
-    <div class="split-line" style="height: 10px"></div>
+
     <!-- 弹出层 -->
     <el-dialog
       title="  日数据详情 "
@@ -61,9 +62,6 @@
           </div>
         </div>
       </div>
-      <!-- <span slot="footer" class="dialog-footer">
-         <el-button @click="handleDialogClose">关闭</el-button> 
-      </span> -->
     </el-dialog>
     <!-- 成都市数据 -->
     <div class="chart-row2" style="width: 100%">
@@ -82,55 +80,30 @@
         <div id="chart3" style="width: 100%; height: 400px"></div>
       </div>
     </div>
-
-    <!-- 数据表格 -->
-    <div class="table">
-      <div class="table-title">
-        <div class="main-title">实时数据详情表格</div>
+    <div class="one">
+      <div class="padding" style="width: 100%">实验监测点数据</div>
+      <div class="chart-row3" style="width: 100%">
+        <div class="left-col" style="width: 50%">
+          <!-- <img
+          src="./table.svg"
+          alt="SVG Image"
+          style="width: 0.8; height: 0.8"
+        /> -->
+          <div class="col5-title">实验监测区情况</div>
+          <div id="radarChart" style="width: 100%; height: 400px"></div>
+        </div>
+        <div class="right-col" style="width: 50%">
+          <div class="col6-title">设备运行情况统计</div>
+          <DeviceStatusPieChart />
+        </div>
       </div>
-      <el-table :data="tableData" style="width: 100%" height="600">
-        <el-table-column fixed prop="province" label="省份" width="80">
-        </el-table-column>
-        <el-table-column prop="city" label="城市" width="90"> </el-table-column>
-        <el-table-column prop="name" label="断面名称" width="125">
-        </el-table-column>
-        <el-table-column prop="longitude" label="经度" width="90">
-        </el-table-column>
-        <el-table-column prop="latitude" label="纬度" width="90">
-        </el-table-column>
-        <el-table-column prop="quality" label="水质类别" width="80">
-        </el-table-column>
-        <el-table-column prop="temperature" label="水温" width="70">
-        </el-table-column>
-        <el-table-column prop="ph" label="ph值" width="65"> </el-table-column>
-        <el-table-column prop="oxygen" label="溶解氧" width="70">
-        </el-table-column>
-        <el-table-column prop="AmmoniaNitrogen" label="氨氮" width="70">
-        </el-table-column>
-        <el-table-column prop="phosphorus" label="总磷" width="65">
-        </el-table-column>
-        <el-table-column prop="totalNitrogen" label="总氮" width="65">
-        </el-table-column>
-        <el-table-column prop="turbidity" label="浊度" width="80">
-        </el-table-column>
-        <el-table-column prop="electricConductivity" label="电导率" width="70">
-        </el-table-column>
-        <el-table-column
-          prop="potassiumPermanganate"
-          label="高锰酸钾"
-          width="80"
-        >
-        </el-table-column>
-      </el-table>
-      <!-- 分页组件 -->
-      <el-pagination class="pages" layout="prev, pager, next" :total="1000">
-      </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
 import "echarts-liquidfill";
+import DeviceStatusPieChart from "./DeviceStatusPieChart.vue";
 import * as echarts from "echarts";
 import mapJson from "../../../src/show_data/map.json";
 // 导入表格数据
@@ -150,6 +123,9 @@ export default {
       //存储日期
       selectedDate: null,
       isDialogVisible: false,
+      //雷达
+      radarOptions: null,
+      pieOptions: null,
       // 显示污染类型占比
       showChartType: [
         { value: 30, name: "工业废物" },
@@ -173,7 +149,6 @@ export default {
     // 在页面加载时从 URL 参数获取选择的日期
     const urlParams = new URLSearchParams(window.location.search);
     this.selectedDate = urlParams.get("date");
-
     // 如果有选择的日期，则显示弹出层
     if (this.selectedDate) {
       this.isDialogVisible = true;
@@ -184,6 +159,7 @@ export default {
     this.initChartCol2();
     this.initChartCol3();
     this.initChartCol4();
+    this.initRadarChart();
     this.$nextTick(() => {
       this.initCharts();
     });
@@ -196,7 +172,7 @@ export default {
       var heatChart = echarts.init(document.getElementById("heatmap"));
       var option = {
         title: {
-          text: "各污染物实时变化数据",
+          text: "各污染物24h变化情况",
           left: "center",
           top: "5%",
           textStyle: {
@@ -218,8 +194,8 @@ export default {
           type: "category",
           data: ["磷", "氮", "重金属", "硫酸盐", "铀"],
           inverse: true,
-          animationDuration: 300,
-          animationDurationUpdate: 300,
+          animationDuration: 2000,
+          animationDurationUpdate: 2000,
           max: 5,
           axisLabel: {
             color: "white",
@@ -230,17 +206,54 @@ export default {
             realtimeSort: true,
             name: "实时变化",
             type: "bar",
+            barWidth: 20,
             data: [],
             label: {
               show: true,
               position: "right",
               valueAnimation: true,
             },
+            itemStyle: {
+              // 设置柱状图的样式
+              barWidth: 5,
+              color: {
+                type: "linear",
+                x: 1,
+                y: 0,
+                x2: 0,
+                y2: 0,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: "#0052FF", // 渐变起始颜色
+                  },
+                  {
+                    offset: 1,
+                    color: "#6C9BFF", // 渐变结束颜色
+                  },
+                ],
+                global: false, // 缺省为 false
+              },
+              emphasis: {
+                color: "#5a8dcc", // 鼠标悬停时的颜色
+              },
+            },
           },
         ],
+        // graphic: {
+        //   elements: [
+        //     {
+        //       type: "image",
+        //       style: {
+        //         image: require("../../assets/usesvg/list.svg"), // 引入外部 SVG 文件
 
+        //         opacity: 1.0,
+        //       },
+        //     },
+        //   ],
+        // },
         animationDuration: 0,
-        animationDurationUpdate: 3000,
+        animationDurationUpdate: 4100,
         animationEasing: "linear",
         animationEasingUpdate: "linear",
       };
@@ -362,7 +375,7 @@ export default {
                 itemStyle: { normal: { areaColor: "#f39c51" } },
               },
             ],
-            zoom: 0.9,
+            zoom: 1.1,
             itemStyle: {
               // 普通状态下的样式
               normal: {
@@ -509,8 +522,6 @@ export default {
     handleDialogClose() {
       this.isDialogVisible = false;
     },
-    //
-
     handleClose() {
       this.isDialogVisible = false; // 关闭弹窗
     },
@@ -919,7 +930,7 @@ export default {
       let tph = [160, 300, 280, 180, 300, 240, 120, 340, 200, 250];
       let aph = [120, 246, 340, 188, 100, 235, 123, 33, 300, 300, 100, 230];
       let option = {
-        backgroundColor: "#0b2249",
+        // backgroundColor: "#0b2249",
         legend: {
           icon: "rect",
           itemWidth: 14,
@@ -1185,6 +1196,327 @@ export default {
         mapChart.resize();
       };
     },
+    initRadarChart() {
+      var radarChart = echarts.init(document.getElementById("radarChart"));
+      let indicatorList = [
+        {
+          name: "监测区1",
+        },
+        {
+          name: "监测区2",
+        },
+        {
+          name: "监测区3",
+        },
+        {
+          name: "监测区4",
+        },
+        {
+          name: "监测区5",
+        },
+      ];
+      const option = {
+        // backgroundColor: "rgb(13,34,73)",
+        color: ["#0290ff", "#ffe533", "#ff4d4d", "#06f5bc"],
+        tooltip: {
+          show: false, // 弹层数据去掉
+        },
+        legend: {
+          data: [
+            {
+              name: "告警",
+              icon: "rect",
+              itemStyle: {
+                color: "#ff4d4d",
+                borderWidth: 0, // 设置图例图标的颜色
+              },
+            },
+            {
+              name: "预警",
+              icon: "rect",
+              itemStyle: {
+                color: "#0290ff",
+                borderWidth: 0, // 设置图例图标的颜色
+              },
+            },
+            {
+              name: "缺陷",
+              icon: "rect",
+              itemStyle: {
+                color: "#ffe533",
+                borderWidth: 0, // 设置图例图标的颜色
+              },
+            },
+            {
+              name: "巡检",
+              icon: "rect",
+              itemStyle: {
+                color: "#06f5bc",
+                borderWidth: 0, // 设置图例图标的颜色
+              },
+            },
+          ],
+          bottom: 20,
+          show: true,
+          // y: "1",
+          // center: 0,
+          itemWidth: 12,
+          itemHeight: 12,
+          itemGap: 26,
+          z: 3,
+          orient: "horizontal",
+          textStyle: {
+            fontSize: 14,
+            color: "#edf8ff",
+          },
+        },
+        radar: {
+          center: ["50%", "50%"], // 外圆的位置
+          radius: "55%",
+          name: {
+            textStyle: {
+              color: "#fff",
+              fontSize: 16,
+              fontWeight: 400,
+              fontFamily: "PingFangSC-Regular,PingFang SC",
+              fontStyle: "normal",
+            },
+          },
+          // TODO:
+          indicator: indicatorList,
+          splitArea: {
+            // 坐标轴在 grid 区域中的分隔区域，默认不显示。
+            show: true,
+            areaStyle: {
+              // 分隔区域的样式设置。
+              color: ["rgba(255,255,255,0)"], // 分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
+            },
+          },
+          axisLine: {
+            // 指向外圈文本的分隔线样式
+            lineStyle: {
+              color: "rgba(255,255,255,0)",
+            },
+          },
+          splitLine: {
+            lineStyle: {
+              type: "solid",
+              color: "#0ac8ff", // 分隔线颜色
+              width: 2, // 分隔线线宽
+            },
+          },
+        },
+        series: [
+          {
+            type: "radar",
+            data: [
+              {
+                value: [50, 60, 40, 10, 0],
+                name: "告警",
+                areaStyle: {
+                  normal: {
+                    color: {
+                      type: "radial",
+                      x: 0.5,
+                      y: 0.5,
+                      r: 0.5,
+                      colorStops: [
+                        {
+                          offset: 0,
+                          color: "rgba(255, 56, 56, 0.14)", // 0% 处的颜色
+                        },
+                        {
+                          offset: 0.15,
+                          color: "rgba(255, 56, 56, 0.14)", // 100% 处的颜色
+                        },
+                        {
+                          offset: 0.75,
+                          color: "rgba(255, 56, 56, 0.4)", // 100% 处的颜色
+                        },
+                        {
+                          offset: 1,
+                          color: "rgba(255, 56, 56, 0.8)", // 100% 处的颜色
+                        },
+                      ],
+                      global: false, // 缺省为 false
+                    },
+                  },
+                },
+                symbolSize: [6, 6],
+                lineStyle: {
+                  //边缘颜色
+                  //  width: 0
+
+                  color: "rgba(255, 56, 56, 0.8)",
+                  // shadowBlur:8,
+                  // shadowColor:'#ff3838'
+                },
+                itemStyle: {
+                  color: "#fff",
+                  borderColor: "#ff6565",
+                  borderWidth: 1,
+                  shadowBlur: 8,
+                  shadowColor: "#ff6565",
+                },
+              },
+              {
+                value: [80, 80, 80, 70, 60],
+                name: "预警",
+                areaStyle: {
+                  normal: {
+                    color: {
+                      type: "radial",
+                      x: 0.5,
+                      y: 0.5,
+                      r: 0.5,
+                      colorStops: [
+                        {
+                          offset: 0,
+                          color: "rgba(0,194,255, 0.14)", // 0% 处的颜色
+                        },
+                        {
+                          offset: 0.15,
+                          color: "rgba(0,194,255, 0.14)", // 100% 处的颜色
+                        },
+                        {
+                          offset: 0.75,
+                          color: "rgba(0,194,255, 0.4)", // 100% 处的颜色
+                        },
+                        {
+                          offset: 1,
+                          color: "rgba(0,194,255, 0.8)", // 100% 处的颜色
+                        },
+                      ],
+                      global: false, // 缺省为 false
+                    },
+                  },
+                },
+                symbolSize: [6, 6],
+                lineStyle: {
+                  //边缘颜色
+                  //  width: 0
+
+                  color: "rgba(0, 194, 255, 0.8)",
+                  // shadowBlur:8,
+                  // shadowColor:'#ff3838'
+                },
+                itemStyle: {
+                  color: "#fff",
+                  borderColor: "#00c8ff",
+                  borderWidth: 1,
+                  shadowBlur: 8,
+                  shadowColor: "#00c8ff",
+                },
+              },
+              {
+                value: [50, 40, 70, 50, 60],
+                name: "缺陷",
+                areaStyle: {
+                  normal: {
+                    color: {
+                      type: "radial",
+                      x: 0.5,
+                      y: 0.5,
+                      r: 0.5,
+                      colorStops: [
+                        {
+                          offset: 0,
+                          color: "rgba(255, 220, 56, 0.14)", // 0% 处的颜色
+                        },
+                        {
+                          offset: 0.15,
+                          color: "rgba(255, 220, 56, 0.14)", // 100% 处的颜色
+                        },
+                        {
+                          offset: 0.75,
+                          color: "rgba(255, 220, 56, 0.4)", // 100% 处的颜色
+                        },
+                        {
+                          offset: 1,
+                          color: "rgba(255, 220, 56, 0.8)", // 100% 处的颜色
+                        },
+                      ],
+                      global: false, // 缺省为 false
+                    },
+                  },
+                },
+                symbolSize: [6, 6],
+                lineStyle: {
+                  //边缘颜色
+                  //  width: 0
+
+                  color: "rgba(255, 220, 56, 0.8)",
+                  // shadowBlur:8,
+                  // shadowColor:'#ff3838'
+                },
+                itemStyle: {
+                  color: "#fff",
+                  borderColor: "#cdbd3e",
+                  borderWidth: 1,
+                  shadowBlur: 8,
+                  shadowColor: "#cdbd3e",
+                },
+              },
+
+              {
+                value: [0, 0, 10, 30, 70],
+                name: "巡检",
+                areaStyle: {
+                  normal: {
+                    color: {
+                      type: "radial",
+                      x: 0.5,
+                      y: 0.5,
+                      r: 0.5,
+                      colorStops: [
+                        {
+                          offset: 0,
+                          color: "rgba(13, 248, 172, 0.14)", // 0% 处的颜色
+                        },
+                        {
+                          offset: 0.15,
+                          color: "rgba(13, 248, 172, 0.14)", // 100% 处的颜色
+                        },
+                        {
+                          offset: 0.75,
+                          color: "rgba(13, 248, 172, 0.4)", // 100% 处的颜色
+                        },
+                        {
+                          offset: 1,
+                          color: "rgba(13, 248, 172, 0.8)", // 100% 处的颜色
+                        },
+                      ],
+                      global: false, // 缺省为 false
+                    },
+                  },
+                },
+                symbolSize: [6, 6],
+                lineStyle: {
+                  //边缘颜色
+                  //  width: 0
+
+                  color: "rgba(13, 248, 172, 0.8)",
+                  // shadowBlur:8,
+                  // shadowColor:'#ff3838'
+                },
+                itemStyle: {
+                  color: "#fff",
+                  borderColor: "#00ffb4",
+                  borderWidth: 1,
+                  shadowBlur: 8,
+                  shadowColor: "#00ffb4",
+                },
+              },
+            ],
+          },
+        ],
+      };
+      this.radarOptions = option;
+      radarChart.setOption(this.radarOptions);
+      // 将 ECharts 实例保存到组件的实例属性中
+      this.radarChartInstance = radarChart;
+    },
+
     changeAddress() {
       this.$confirm("是否要修改当前定位?", "提示", {
         confirmButtonText: "确定",
@@ -1204,11 +1536,19 @@ export default {
   },
   components: {
     Header,
+    DeviceStatusPieChart,
   },
 };
 </script>
 <style scoped lang="less">
 #data-analyze {
+  .split-line {
+    left: 19px;
+    top: 45px;
+    position: absolute;
+    width: 1237px;
+    height: 10px;
+  }
   /deep/.el-dialog {
     background-color: #064965;
     height: 1200px;
@@ -1283,7 +1623,6 @@ export default {
     .chart-col2 {
       .titleBox {
         display: flex;
-
         .singleTitle {
           padding-top: 10px;
           box-sizing: border-box;
@@ -1336,6 +1675,38 @@ export default {
       text-align: center;
       padding-top: 8px;
       background-color: #fff;
+    }
+  }
+  .one {
+    background-image: url("../../assets/usesvg/background.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    .padding {
+      text-align: center;
+      padding-top: 36px;
+      font-size: 20px;
+      color: #050d4b;
+      font-weight: bold;
+    }
+  }
+  .chart-row3 {
+    padding: 20px 10px;
+    display: flex;
+    // background-color: #0b2249;
+    .left-col.right-col {
+      padding: 30px;
+    }
+    .col5-title {
+      text-align: center;
+      color: #3cd5ff;
+      padding: 3px 10px;
+      box-sizing: border-box;
+    }
+    .col6-title {
+      text-align: center;
+      color: #3cd5ff;
+      padding: 3px 10px;
+      box-sizing: border-box;
     }
   }
 }
