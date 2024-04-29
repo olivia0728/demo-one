@@ -302,77 +302,77 @@ export default {
               {
                 name: "锦江区",
                 value: 55,
-                itemStyle: { normal: { areaColor: "#ee6666" } },
+                itemStyle: { normal: { areaColor: "#0656ff" } },
               },
               {
                 name: "新都区",
                 value: 12,
-                itemStyle: { normal: { areaColor: "#f39c51" } },
+                itemStyle: { normal: { areaColor: "#6797ff" } },
               },
               {
                 name: "双流区",
                 value: 20,
-                itemStyle: { normal: { areaColor: "#fac858" } },
+                itemStyle: { normal: { areaColor: "#6797ff" } },
               },
               {
                 name: "青羊区",
                 value: 34,
-                itemStyle: { normal: { areaColor: "#f39c51" } },
+                itemStyle: { normal: { areaColor: "#0656ff" } },
               },
               {
                 name: "武侯区",
                 value: 11,
-                itemStyle: { normal: { areaColor: "#fac858" } },
+                itemStyle: { normal: { areaColor: "#6797ff" } },
               },
               {
                 name: "成华区",
                 value: 17,
-                itemStyle: { normal: { areaColor: "#f39c51" } },
+                itemStyle: { normal: { areaColor: "#6797ff" } },
               },
               {
                 name: "金牛区",
                 value: 12,
-                itemStyle: { normal: { areaColor: "#91cc75" } },
+                itemStyle: { normal: { areaColor: "#6797ff" } },
               },
               {
                 name: "龙泉驿区",
                 value: 11,
-                itemStyle: { normal: { areaColor: "#fac858" } },
+                itemStyle: { normal: { areaColor: "#3a79ff" } },
               },
               {
                 name: "青白江区",
                 value: 20,
-                itemStyle: { normal: { areaColor: "#f39c51" } },
+                itemStyle: { normal: { areaColor: "#6797ff" } },
               },
               {
                 name: "温江区",
                 value: 20,
-                itemStyle: { normal: { areaColor: "#f39c51" } },
+                itemStyle: { normal: { areaColor: "#0656ff" } },
               },
               {
                 name: "郫都区",
                 value: 15,
-                itemStyle: { normal: { areaColor: "#ee6666" } },
+                itemStyle: { normal: { areaColor: "#6797ff" } },
               },
               {
                 name: "新津区",
                 value: 11,
-                itemStyle: { normal: { areaColor: "#91cc75" } },
+                itemStyle: { normal: { areaColor: "#3a79ff" } },
               },
               {
                 name: "大邑县",
                 value: 2,
-                itemStyle: { normal: { areaColor: "#f39c51" } },
+                itemStyle: { normal: { areaColor: "#6797ff" } },
               },
               {
                 name: "金堂县",
                 value: 5,
-                itemStyle: { normal: { areaColor: "#91cc75" } },
+                itemStyle: { normal: { areaColor: "#3a79ff" } },
               },
               {
                 name: "蒲江县",
                 value: 10,
-                itemStyle: { normal: { areaColor: "#f39c51" } },
+                itemStyle: { normal: { areaColor: "#6797ff" } },
               },
             ],
             zoom: 1.1,
@@ -1685,7 +1685,7 @@ export default {
       text-align: center;
       padding-top: 36px;
       font-size: 20px;
-      color: #050d4b;
+      color: #2f558e;
       font-weight: bold;
     }
   }
@@ -1697,15 +1697,17 @@ export default {
       padding: 30px;
     }
     .col5-title {
+      font-size: 18px;
       text-align: center;
       color: #3cd5ff;
-      padding: 3px 10px;
+      padding: 3px 8px;
       box-sizing: border-box;
     }
     .col6-title {
+      font-size: 18px;
       text-align: center;
       color: #3cd5ff;
-      padding: 3px 10px;
+      padding: 3px 8px;
       box-sizing: border-box;
     }
   }

@@ -49,7 +49,7 @@ export default {
       color: this.color,
       title: {
         text: "设备状态",
-        subtext: "500个",
+        subtext: "397个",
         top: "41%",
         textAlign: "center",
         left: "44%",
@@ -57,12 +57,14 @@ export default {
           color: "#fff",
           fontSize: 22,
           fontWeight: "400",
+          fontWeight: "bold",
         },
         subtextStyle: {
-          color: "#fff",
+          color: "#00ffff",
           fontSize: 20,
           fontWeight: "normal",
           align: "center",
+          fontWeight: "bold",
         },
       },
       graphic: {
@@ -179,8 +181,8 @@ export default {
                 },
               },
               labelLine: {
-                length: 20,
-                length2: 80,
+                length: 28,
+                length2: 40,
                 show: true,
                 color: "#00ffff",
               },
