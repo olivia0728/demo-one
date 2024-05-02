@@ -183,7 +183,7 @@ export default {
               url: "datastand",
             },
             {
-              label: "历史数据",
+              label: "仪器数据",
               url: "datedetail",
             },
           ],
