@@ -22,6 +22,8 @@ import Datedetail from '../components/data/datedetail.vue'
 import WarningIndex from '../components/warning/warning-index.vue'
 // 数据检测界面
 import WarningDetection from '../components/warning/warning-detection.vue'
+// 预警系统的详情界面
+import WarningDetail from '@/components/warning/warning-detail.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -135,6 +137,12 @@ const routes = [{
         path:'warningdetection',
         name:'warningdetection',
         component:WarningDetection
+      },
+       // 预警详情界面
+      {
+        path:'warningdetail',
+        name:'warningdetail',
+        component:WarningDetail
       }
     ]
   }

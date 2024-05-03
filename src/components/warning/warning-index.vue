@@ -27,18 +27,9 @@
         <!-- 主体也分为三个区域 -- 左侧数据 中部圆形 右侧数据 -->
         <div class="left-data">
           <!-- 循环渲染左侧数据列表 -->
-          <div class="single-data" v-for="(item,index) in warning_left_data" :key="index" @click="item.isShow=true">
+          <div class="single-data" v-for="(item,index) in warning_left_data" :key="index" @click="gotoDetail(item)">
             <!-- hover触发弹窗气泡 -- 显示详细数据 -->
-            <el-popover
-               placement="top-start"
-               width="200"
-               v-model="item.isShow"
-               trigger="hover"
-               >
-              <!-- 自定义内容 -->
-              <div class="title" style="color: #064965;font-weight: bold;">{{ item.title }}数据：</div>
-              <span>{{item.value}}</span>
-            </el-popover>
+            
             <div class="data-image">
               <img :src="item.image" class="image">
             </div>
@@ -58,22 +49,14 @@
         </div>
         <div class="right-data">
           <!-- 循环渲染右侧数据列表 -->
-          <div class="single-data" v-for="(item,index) in warning_right_data" :key="index" @click="item.isShow=true">
+          <div class="single-data" v-for="(item,index) in warning_right_data" :key="index" @click="gotoDetail(item)">
             <div class="data-title">
               <div class="title-text">
                 <span class="text-content">{{ item.title }}</span>
               </div>
               
             </div>
-            <el-popover
-               placement="top-start"
-               v-model="item.isShow"
-               trigger="hover"
-               >
-              <!-- 自定义内容 -->
-              <div class="title" style="color: #064965;font-weight: bold;">{{ item.title }}数据：</div>
-              <span>{{item.value}}</span>
-            </el-popover>
+           
             <div class="data-image">
               <img :src="item.image" class="image">
             </div>
@@ -257,16 +240,28 @@ export default {
         {
           title:'水温检测',
           image:require('../../assets/water.png'),
+          data:[
+            '25','23.2','21','22','25.6','21.4',
+            '26.1','23','20.2','17','18.4','24.9'
+          ],
           value:'24.9'
         },
         {
           title:'氨氮检测',
           image:require('../../assets/water.png'),
+          data:[
+            '0.032','0.044','0.043','0.026','0.071','0.039',
+            '0.055','0.047','0.063','0.049','0.031','0.037'
+          ],
           value:'0.037'
         },
         {
           title:'ph值检测',
           image:require('../../assets/water.png'),
+          data:[
+            '9.4','8.3','9.87','7.91','8.55','7.61',
+            '9.55','8.43','7.65','6.99','9.01','8.61'
+          ],
           value:'8.61'
         }
       ],
@@ -274,15 +269,27 @@ export default {
         {
           title:'浊度检测',
           image:require('../../assets/water.png'),
+          data:[
+            '421','390','401','366','405','382',
+            '328','455','308','405','356','432'
+          ],
           value:'432'
         },
         {
           title:'电导率检测',
+          data:[
+            '11.5','12.3','11.9','10.3','11.8','12.5',
+            '13.1','10.5','12.6','11.4','10.3','12.8'
+          ],
           image:require('../../assets/water.png'),
           value:'12.8'
         },
         {
           title:'高锰酸钾检测',
+          data:[
+            '2.23','1.99','3.41','3.06','2.01','3.42',
+            '2.43','1.83','1.47','2.33','2.43','2.55'
+          ],
           image:require('../../assets/water.png'),
           value:'2.55'
         }
@@ -310,6 +317,15 @@ export default {
     // 跳转到检测界面
     gotoWarningDetection(){
       this.$router.push('/index/warningdetection')
+    },
+    // 跳转至对应的详情界面
+    gotoDetail(data){
+      const query = JSON.stringify(data)
+      // console.log(query)
+      this.$router.push({
+        path:'/index/warningdetail',
+        query:{query:query}
+      })
     }
    
   },
